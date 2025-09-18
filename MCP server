@@ -1,0 +1,253 @@
+🚀 MCP Server Development
+In this lab, you'll learn to build your own Model Context Protocol (MCP) server from scratch. You'll create a complete flight booking system with Resources, Tools, and Prompts.
+
+What you'll build:
+
+Airport information resources
+Flight search and booking tools
+Optimization prompts for AI assistants
+A complete MCP server using FastMCP
+
+What are the three main features exposed by an MCP server?
+Resource,tools and prompts
+
+What decorator is used to define an MCP tool in FastMCP?
+The @mcp.tool() decorator is used to define MCP tools in FastMCP. This decorator transforms regular Python functions into MCP tools that can be called by AI systems.
+FastMCP uses simple, intuitive decorators to define server components.
+
+When should you use HTTP transport instead of STDIO for an MCP server?
+HTTP transport should be used when you need remote network access to your MCP server. STDIO is for local communication, while HTTP enables remote clients to connect over the network.
+
+What is the primary purpose of MCP Prompts?
+MCP Prompts provide pre-written interaction templates that guide AI systems on how to effectively use your MCP server's capabilities. They help AI systems understand the context and best practices for interacting with your server.
+
+==================
+
+Understanding UV Package Manager
+
+📦 What is UV?
+UV is a modern, fast Python package and project manager written in Rust. It's designed to replace tools like pip, virtualenv, and poetry with a single, unified solution.
+
+🚀 Why UV for MCP Development?
+
+Official Recommendation: MCP documentation specifically recommends UV
+Speed: 10-100x faster than pip for dependency resolution
+Project Management: Handles dependencies, virtual environments, and Python versions
+Modern Standards: Uses pyproject.toml (PEP 518) for configuration
+Rust Performance: Built in Rust for maximum speed and reliability
+🎯 UV vs Traditional Tools:
+
+Traditional	UV Equivalent
+pip install package / 	uv add package
+python -m venv env	/ uv init project
+pip install -r requirements.txt /	uv sync
+💡 Perfect for Learning: UV simplifies Python project management, letting you focus on MCP concepts rather than environment setup complexity.
+
+
+
+========================
+
+Setting Up Your MCP Project
+
+Following the official MCP documentation, you'll set up your own MCP project using uv for Python project management.
+
+Open a terminal in VSCode if one is not already open (Terminal → New Terminal)
+Create a new MCP project using uv
+Add MCP dependencies with CLI tools
+Verify your project structure
+Commands to run:
+
+cd /home/lab-user
+uv init flight-booking-server
+cd flight-booking-server
+uv add "mcp[cli]"
+
+Why these commands?
+
+uv init creates a proper Python project with pyproject.toml
+mcp[cli] includes both MCP SDK and development tools (MCP Inspector)
+This follows the official MCP development workflow
+
+Is the flight-booking-server project directory created?
+Is the pyproject.toml file created by uv?
+Is MCP added as a project dependency?
+
+
+==
+
+Creating an MCP Resource
+
+We've created a basic server structure with an airport data function. Your task is to make it an MCP Resource by adding the correct decorator.
+
+Open the server.py file in your project directory
+Find the get_airports() function
+Add the correct MCP resource decorator above it
+Resources provide read-only data access to AI systems
+⚠️ Important: The resource must be defined with the URI scheme file://airports - MCP resources require proper URI schemes to be correctly identified by AI systems.
+
+Add the resource decorator above the get_airports function:
+@mcp.resource("file://airports")
+def get_airports():
+    """Get list of available airports"""
+    return {
+        "LAX": {"name": "Los Angeles International", "city": "Los Angeles"},
+        "JFK": {"name": "John F. Kennedy International", "city": "New York"},
+        "LHR": {"name": "London Heathrow", "city": "London"}
+    }
+
+Resources require proper URI schemes (like file://) and provide read-only data access to AI systems.
+
+
+====================
+
+Creating MCP Tools
+
+We've added flight search and booking functions to your server. Your task is to make them MCP Tools by adding the correct decorators.
+
+Find the search_flights() function in server.py
+Find the create_booking() function in server.py
+Add the correct MCP tool decorator above each function
+Tools perform actions and can accept parameters
+
+Are tools defined with @mcp.tool() decorator?
+Is the search_flights function decorated as a tool?
+Is the create_booking function decorated as a tool?
+
+
+=========
+
+Creating MCP Prompts
+
+We've added AI guidance functions to your server. Your task is to make them MCP Prompts by adding the correct decorators.
+
+Find the find_best_flight() function in server.py
+Find the handle_disruption() function in server.py
+Add the correct MCP prompt decorator above each function
+Prompts provide templates for AI interactions
+
+Are prompts defined with @mcp.prompt() decorator?
+Is the find_best_flight function decorated as a prompt?
+Is the handle_disruption function decorated as a prompt?
+
+
+Add the prompt decorators above both functions:
+
+@mcp.prompt()
+def find_best_flight(budget: float, preferences: str = "economy") -> str:
+    """Generate a prompt for finding the best flight within budget"""
+    # ... existing code ...
+
+@mcp.prompt()
+def handle_disruption(original_flight: str, reason: str) -> str:
+    """Generate a prompt for handling flight disruptions"""
+    # ... existing code ...
+
+Prompts provide AI systems with guidance templates for optimal interactions.
+
+=======================
+
+✅ Roo-Code is Ready!
+Great news! Your Roo-Code has been automatically configured with the necessary API credentials.
+
+🔍 Verify Your Setup
+Click the kangaroo icon 🦘 (roo-code) in the left sidebar
+Look at the bottom of the Roo-Code interface
+You should see "kodekey-profile" - this is your active profile
+What is "kodekey-profile"? This pre-configured profile contains:
+
+✅ OpenAI API credentials
+✅ The AI model: openai/gpt-4.1-mini
+✅ Connection settings for the AI service
+💡 Behind the scenes: We've automatically loaded the "kodekey-profile" with temporary API keys that expire in 1 hour. If you're curious about the configuration, you can view:
+
+API keys: cat ~/.bash_profile
+Profile settings: cat ~/.roo-coder/profiles/default/settings.json
+🚀 Ready to Test: With "kodekey-profile" active, Roo-Code is now ready to interact with your MCP server!
+
+
+-------------------------
+
+🦘 Connect Your MCP Server to Roo-Code
+Now let's test your MCP server by connecting it to the Roo-Code AI assistant!
+
+🔧 Configure MCP Server
+Look for the roo-code plugin icon (kangaroo logo 🦘) in the left sidebar
+Click on "MCP Servers" at the top (stacked servers icon 📚)
+Click "Edit Project MCP" button
+Replace the file contents with this MCP configuration
+
+{
+  "mcpServers": {
+    "flight-booking": {
+      "command": "uv",
+      "args": ["run", "python", "server.py"],
+      "cwd": "/home/lab-user/flight-booking-server"
+    }
+  }
+}
+
+🔄 Activate and Test
+Save the file and click "Refresh MCP Servers" button
+Verify that "flight-booking" appears in the server list
+Click "Done" to return to the chat interface
+Test your MCP server with these commands:
+"Search for flights from LAX to JFK using the flight-booking server"
+"Get airport information using the flight-booking MCP server"
+"Book flight FL123 for John Doe using flight-booking server"
+
+
+✅ MCP Server Complete!
+You've successfully built a complete MCP server following official patterns with:
+
+✅ Proper project setup using uv and official MCP package
+✅ Resources for airport information
+✅ Tools for flight search and booking
+✅ Prompts for AI guidance
+✅ Testing with official MCP development tools
+✅ Integration with Roo-Code AI assistant
+🚀 What you've learned:
+
+Official MCP development workflow with uv
+FastMCP framework from mcp.server.fastmcp
+Resource, Tool, and Prompt implementation patterns
+MCP Inspector for server testing and validation
+Real-world MCP server integration with AI assistants
+🔜 Next Steps:
+
+Explore HTTP transport: mcp.run(transport="http")
+Add error handling and input validation
+Integrate with real flight APIs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
