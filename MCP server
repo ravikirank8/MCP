@@ -113,6 +113,11 @@ def get_airports():
 
 Resources require proper URI schemes (like file://) and provide read-only data access to AI systems.
 
+Does server.py exist in the project directory?
+Is the @mcp.resource decorator added to the get_airports function?
+Is the resource named 'airports'?
+Can the server be imported without errors?
+
 
 ====================
 
@@ -120,10 +125,57 @@ Creating MCP Tools
 
 We've added flight search and booking functions to your server. Your task is to make them MCP Tools by adding the correct decorators.
 
+from mcp.server.fastmcp import FastMCP
+
+ server.py file 
+
+# Create an MCP server
+mcp = FastMCP("Flight Booking Server")
+
+@mcp.resource("file://airports")
+def get_airports():
+    """Get list of available airports"""
+    return {
+        "LAX": {"name": "Los Angeles International", "city": "Los Angeles"},
+        "JFK": {"name": "John F. Kennedy International", "city": "New York"},
+        "LHR": {"name": "London Heathrow", "city": "London"}
+    }
+
+def search_flights(origin: str, destination: str) -> dict:
+    """Search for flights between two airports"""
+    return {
+        "flights": [
+            {"id": "FL123", "origin": origin, "destination": destination, "price": 299},
+            {"id": "FL456", "origin": origin, "destination": destination, "price": 399}
+        ]
+    }
+
+def create_booking(flight_id: str, passenger_name: str) -> dict:
+    """Create a flight booking"""
+    return {
+        "booking_id": f"BK{flight_id[-3:]}",
+        "flight_id": flight_id,
+        "passenger": passenger_name,
+        "status": "confirmed"
+    }
+
+if __name__ == "__main__":
+    mcp.run() 
+
 Find the search_flights() function in server.py
 Find the create_booking() function in server.py
 Add the correct MCP tool decorator above each function
 Tools perform actions and can accept parameters
+
+@mcp.tool()
+def search_flights(origin: str, destination: str) -> dict:
+    """Search for flights between two airports"""
+    # ... existing code ...
+
+@mcp.tool()
+def create_booking(flight_id: str, passenger_name: str) -> dict:
+    """Create a flight booking"""
+    # ... existing code ...
 
 Are tools defined with @mcp.tool() decorator?
 Is the search_flights function decorated as a tool?
