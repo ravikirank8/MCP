@@ -67,6 +67,67 @@ file://airlines/ - Airline information including names, countries, and fleet siz
 The basic client demonstrates how MCP clients can automatically discover server capabilities through the initialization process.
 
 
+===
+
+Tool Parameter Analysis
+
+Examine the tools_client.py file to understand how MCP clients call server tools with specific parameters.
+
+📋 Analysis Task:
+
+Open and examine the file: /home/lab-user/mcp-client/tools_client.py
+Look at the search_flights tool call in Test 1
+Identify the destination airport parameter value
+Optionally run the client to see the tools in action
+🔍 Code Location:
+
+flight_result = await client.call_tool("search_flights", {
+    "origin": "LAX",
+    "destination": "???"
+})
+
+Command to test:
+
+cd /home/lab-user/mcp-client
+uv run python tools_client.py
+
+💡 Find the destination airport code used in the search_flights tool call!
+
+solution
+
+In tools_client.py, the search_flights tool is called with these parameters:
+
+flight_result = await client.call_tool("search_flights", {
+    "origin": "LAX",
+    "destination": "JFK"
+})
+The destination parameter is set to "JFK" (John F. Kennedy International Airport in New York), while the origin is "LAX" (Los Angeles International Airport).
+
+
+✅ MCP Client Development Complete!
+You've successfully learned to build comprehensive MCP clients that can integrate with any MCP server:
+
+✅ Built basic clients for server discovery and connection
+✅ Created tool-calling clients for automation
+✅ Implemented advanced features: roots, sampling, elicitation
+✅ Developed production-ready integration patterns
+✅ Mastered async Python programming for MCP
+🚀 What you've mastered:
+
+Complete MCP client development workflow
+Programmatic server integration techniques
+Advanced callback implementations
+Production deployment considerations
+Building custom MCP-powered applications
+🔜 Next Steps in MCP Development:
+
+Integrate MCP clients into existing applications
+Build MCP-powered automation systems
+Create custom transport implementations
+Develop MCP-based AI agent platforms
+💡 Pro Tip: MCP clients are the bridge between MCP servers and your applications - they enable powerful AI integrations!
+
+
 
 
 
