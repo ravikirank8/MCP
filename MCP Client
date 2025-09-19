@@ -1,0 +1,76 @@
+🤖 MCP Client Development
+In this lab, you'll learn to build Python clients that interact with MCP servers programmatically. Move beyond the Inspector to create custom automation and integration solutions.
+
+What you'll build:
+
+Basic connection clients for server discovery
+Tool execution clients for automation
+Advanced clients with roots, sampling, and elicitation
+Production-ready integration patterns
+🌐 Cloud Environment: You'll develop Python clients and connect them to MCP servers via HTTP transport.
+
+MCP client - > programaticaly connect to mcp server
+
+Which Python package provides the official MCP client implementation?
+The official MCP Python SDK is installed with 'mcp[client]' which includes the client-side components including ClientSession, transport implementations, and type definitions.
+
+====
+
+Step 1: Start the MCP Server
+
+Before we can test MCP clients, we need to start the flight booking server that our clients will connect to.
+
+Open a terminal and navigate to the server directory
+Start the MCP server using the MCP CLI with streamable-http transport
+Verify the server is running on port 8000
+Leave this terminal open - the server must keep running
+Commands to run:
+
+cd /home/lab-user/flight-booking-server
+uv run mcp run server.py --transport streamable-http
+
+⚠️ Important:
+
+Server runs on 127.0.0.1:8000 (MCP CLI default)
+You should see "Server running on 127.0.0.1:8000" when server starts
+All clients are configured to connect to http://localhost:8000/mcp/
+Keep this terminal open throughout the lab!
+
+
+-----
+
+Server Resource Discovery
+
+Run the basic client to discover what resources the flight booking server provides. The server offers multiple resources that clients can access.
+
+🔍 Discovery Task:
+
+Open a new terminal (keep the server terminal running!)
+Navigate to the mcp-client project directory
+Run the basic client to see all available resources
+Identify the additional resource beyond the airports data
+Command to run:
+
+cd /home/lab-user/mcp-client
+uv run python basic_client.py
+
+💡 Look for the "Available Resources" section in the output!
+
+solution:
+
+When you run the basic client with cd /home/lab-user/mcp-client && uv run python basic_client.py, it will discover and display all server resources.
+
+The flight booking server provides two resources:
+
+file://airports/ - Airport information and data
+file://airlines/ - Airline information including names, countries, and fleet sizes
+The basic client demonstrates how MCP clients can automatically discover server capabilities through the initialization process.
+
+
+
+
+
+
+
+
+
